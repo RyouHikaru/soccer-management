@@ -1,9 +1,14 @@
 import React from 'react';
 import { useContext } from 'react';
 import DataContext from '../context/DataContext';
+import PlayerInfo from './PlayerInfo';
+import PlayerInfoStats from './PlayerInfoStats';
 
 const PlayerDetails = () => {
-  const { player, playerCount, formatFullName } = useContext(DataContext);
+  const { 
+    player, playerCount, formatFullName, 
+    setPrompt, setUpdatePlayer
+  } = useContext(DataContext);
 
   const formatStats = (statPoints) => {
     const stat = [];
@@ -18,59 +23,45 @@ const PlayerDetails = () => {
     return stat;
   }
 
+  const handleDelete = () => {
+    setPrompt(true);
+  }
+
+  const handleUpdate = () => {
+    setUpdatePlayer(player);
+  }
+
   return (
-    <section className='flex flex-col gap-2 p-5 font-semibold border-2 border-yellow-500 border-dashed'>
-      {playerCount > 0 && player._id !== undefined ? 
+    <section className='flex flex-col gap-2 p-5 font-semibold bg-gradient-to-tl from-slate-500 to-slate-100'>
+      {playerCount > 0 && player !== null ? 
         <>
           <h1 className='text-2xl'>Details</h1>
           <div className='flex flex-col gap-2'>
-            <label htmlFor="playerTeam">Team:
-              <span className='font-normal'> {player.team ? player.team : 'Independent'}</span>
-            </label>
-            <label htmlFor="playerName">Name:
-              <span className='font-normal'> {formatFullName(player.firstName, player.lastName)}</span>
-            </label>
-            <label htmlFor="playerEmail">Email: 
-              <span className="font-normal"> {player.email}</span>
-            </label>
-            <label htmlFor="playerPhone">Phone: 
-              <span className="font-normal"> {player.phone}</span>
-            </label>
+            <PlayerInfo htmlFor="playerTeam" text="Team" value={player.team} />
+            <PlayerInfo htmlFor="playerName" text="Name" value={formatFullName(player.firstName, player.lastName)} />
+            <PlayerInfo htmlFor="playerEmail" text="Email" value={player.email} />
+            <PlayerInfo htmlFor="playerPhone" text="Phone" value={player.phone} />
             <div className='flex flex-col'>
               <h2>Stats:</h2>
               <div className='grid grid-col gap-5 p-5 font-normal'>
-                <label htmlFor="playerSpeed">
-                  Speed: 
-                  <div className="grid grid-flow-col grid-cols-3">
-                    {formatStats(player.stats.speed)}
-                  </div>
-                </label>
-                <label htmlFor="playerStrength">
-                  Strength: 
-                  <div className="grid grid-flow-col grid-cols-3">
-                    {formatStats(player.stats.strength)}
-                  </div>
-                </label>
-                <label htmlFor="playerEndurance">
-                  Endurance: 
-                  <div className="grid grid-flow-col grid-cols-3">
-                    {formatStats(player.stats.endurance)}
-                  </div>
-                </label>
-                <label htmlFor="playeraAbility">
-                  Ability: 
-                  <div className="grid grid-flow-col grid-cols-3">
-                    {formatStats(player.stats.ability)}
-                  </div>
-                </label>
-                <label htmlFor="playerTactical">
-                  Tactical: 
-                  <div className="grid grid-flow-col grid-cols-3">
-                    {formatStats(player.stats.tactical)}
-                  </div>
-                </label>
+                <PlayerInfoStats htmlFor="playerSpeed" text="Speed" value={formatStats(player.stats.speed)} />
+                <PlayerInfoStats htmlFor="playerStrength" text="Strength" value={formatStats(player.stats.strength)} />
+                <PlayerInfoStats htmlFor="playerEndurance" text="Endurance" value={formatStats(player.stats.endurance)} />
+                <PlayerInfoStats htmlFor="playeraAbility" text="Ability" value={formatStats(player.stats.ability)} />
+                <PlayerInfoStats htmlFor="playerTactical" text="Tactical" value={formatStats(player.stats.tactical)} />
               </div>
             </div>
+          </div>
+          <div className="grid grid-flow-col">
+            <button 
+              onClick={handleUpdate}
+              className='w-3/4 mx-auto rounded-full bg-slate-300 hover:bg-blue-800 hover:text-slate-100' type="button"
+            >Update</button>
+            <button
+              onClick={handleDelete}
+              value={"delete"}
+              className='w-3/4 mx-auto rounded-full bg-slate-300 hover:bg-red-800 hover:text-slate-100' type="button"
+            >Delete</button>
           </div>
         </>
       : playerCount > 0 ?  <p className='italic'>Select a player</p>
