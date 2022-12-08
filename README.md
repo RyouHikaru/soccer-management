@@ -1,3 +1,5 @@
 # Soccer Management
 
-A simple soccer management application from a LinkedIn course built using MERN stack.
+A Soccer Team Management app built using MERN stack.
+
+Project inspired from Emmanuel Henri's LinkedIn course, [MERN Essential Training](https://www.linkedin.com/learning/mern-essential-training?trk=tracker-hub_flagship_learning).
