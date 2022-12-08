@@ -9,9 +9,9 @@ const PORT = 4000;
 
 // Mongo connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/soccerDb', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+mongoose.connect('mongodb://localhost/soccer-management', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
 // BodyParser setup
@@ -24,9 +24,9 @@ app.use(cors());
 routes(app);
 
 app.get('/', (req, res) => {
-    res.send(`Our Soccer application is on running ${PORT}`)
+  res.send(`Soccer application is on running ${PORT}`)
 });
 
 app.listen(PORT, () => {
-    console.log(`Your soccer server is running on port ${PORT}`);
+  console.log(`Your soccer server is running on port ${PORT}`);
 });

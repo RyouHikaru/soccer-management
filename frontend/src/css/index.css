@@ -1,0 +1,9 @@
+@tailwind base;
+@layer base {
+  html {
+    @apply font-coda;
+  }
+}
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Coda&display=swap');
