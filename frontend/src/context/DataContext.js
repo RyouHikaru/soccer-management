@@ -4,6 +4,8 @@ import useFetch from '../hooks/useFetch';
 const DataContext = createContext({});
 
 export const DataProvider = ({ children }) => {
+  const [search, setSearch] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   const [players, setPlayers] = useState([]);
   const [player, setPlayer] = useState(null);
   const [updatePlayer, setUpdatePlayer] = useState(null);
@@ -18,12 +20,21 @@ export const DataProvider = ({ children }) => {
     setPlayers(data);
     setPlayerCount(data.length);
   }, [data])
+
+  useEffect(() => {
+    const filteredResults = players.filter(player => (
+      (formatFullName(player.firstName, player.lastName)).toLowerCase().includes(search.toLowerCase())))
+
+      setSearchResults(filteredResults.reverse());
+      setPlayerCount(filteredResults.length)
+  }, [players, search])
   
   return (
     <DataContext.Provider value={{
       fetchError, isLoading, players, setPlayers, 
       player, setPlayer, formatFullName, playerCount,
-      prompt, setPrompt, updatePlayer, setUpdatePlayer
+      prompt, setPrompt, updatePlayer, setUpdatePlayer,
+      search, setSearch, searchResults, setSearchResults
     }}>
       {children}
     </DataContext.Provider>

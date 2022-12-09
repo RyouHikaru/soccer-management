@@ -3,11 +3,12 @@ import { useContext } from 'react';
 import DataContext from '../context/DataContext';
 import PlayerInfo from './PlayerInfo';
 import PlayerInfoStats from './PlayerInfoStats';
+import { FaTimes } from 'react-icons/fa';
 
 const PlayerDetails = () => {
   const { 
-    player, playerCount, formatFullName, 
-    setPrompt, setUpdatePlayer
+    player, setPlayer, playerCount, 
+    formatFullName, setPrompt, setUpdatePlayer
   } = useContext(DataContext);
 
   const formatStats = (statPoints) => {
@@ -31,11 +32,18 @@ const PlayerDetails = () => {
     setUpdatePlayer(player);
   }
 
+  const handleClose = () => {
+    setPlayer(null);
+  }
+
   return (
     <section className='flex flex-col gap-2 p-5 font-semibold bg-gradient-to-tl from-slate-500 to-slate-100'>
       {playerCount > 0 && player !== null ? 
         <>
-          <h1 className='text-2xl'>Details</h1>
+          <div className="flex justify-between">
+            <h1 className='text-2xl'>Details</h1>
+            <button title='Close' onClick={handleClose} className='text-2xl hover:text-red-400'><FaTimes /></button>
+          </div>
           <div className='flex flex-col gap-2'>
             <PlayerInfo htmlFor="playerTeam" text="Team" value={player.team} />
             <PlayerInfo htmlFor="playerName" text="Name" value={formatFullName(player.firstName, player.lastName)} />
